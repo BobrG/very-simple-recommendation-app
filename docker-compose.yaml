@@ -1,0 +1,15 @@
+version: '2.2'
+services:
+    web:
+        build: .
+        ports:
+            - "5000:5000"
+        volumes:
+            - .:/code
+        environment:
+            - FLASK_ENV=debug
+            - FLASK_APP=/code/app.py
+            - DATABASE=/code/database.db
+
+        command: unzip /code/movies_ds/archive.zip -d /code
+        command: python /code/app.py
