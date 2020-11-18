@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <title>Register | Flask</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+
+
+
+    <div class="container">
+        <div class="row" style="margin-top: 30px">
+            <div class="col-sm-6">
+                <form id="form1" action="/" method="POST">
+                    <div class="form-group">
+                      <label for="movie_name">Movie name : </label>
+                      <input type="text" name="movie_name" class="form-control" id="movie_name">
+                    </div>
+                    <label for=ratings> My rating : </label>
+                    <select name=ratings method="POST" action="/">
+                    {% for rate in rating %}
+                    <option value= "{{rate}}" SELECTED>{{rate}}</option>"
+                    {% endfor %}
+                    </select>
+                    <input type="submit" name="submit_button" value="submit" style="float: right;">
+
+                    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="container" style="margin-top: 30px;">
+    <label> Watched list : </label>
+    </div>
+    <div class="container" style="margin-left: 150px; margin-top: 10px;height:250px;width:720px;border:1px solid #ccc;overflow:auto;">
+        {% block content %}
+        {% for post in movies %}
+            <article class="media content-section">
+              <div class="media-body">
+                <div class="article-metadata">
+
+                <div class="textbox" style="margin-top: 7px;height:50px;width:685px;border:5px solid #ccc;overflow:auto;">
+                    <p class="alignleft" style="margin-top: 10px;margin-left: 10px;float: left;"> <b> Movie: </b> {{ post.name}}</p>
+
+                    <form method=post class=delete-movie>
+                        <input type=hidden value="{{ post.id }}" name=movie_to_delete />
+                        <input type="submit" name="remove_button" value="remove" class="alignright" style="margin-top: 7px;margin-right: 10px;float: right;">
+                    </form>
+                    <p style="margin-top: 10px;margin-right: 150px;float: right;"> <b>Rating: </b> {{ post.rating}} / 5 </p>​
+
+                </div>
+               </div>
+              </div>
+            </article>
+        {% endfor %}
+        {% endblock content %}
+
+    </div>
+<div class="container" style="margin-left: 150px; margin-top: 50px;width:720px;">
+    <form method="POST">
+        <label style="margin-top: 3px;"> Recommendations </label>
+        <form method=post class=recommend>
+            <input type="submit" name="recommend_button" value="get" class="alignright" style="float: right;">
+        </form>
+    </form>
+    {% block content2 %}
+    {% if recommendations %}
+        {% for post in recommendations %}
+            <article class="media content-section">
+              <div class="media-body">
+                <div class="article-metadata">
+                <form id="form2" action="/" method="POST">
+                <div class="textbox" style="margin-top: 7px;height:50px;width:685px;border:5px solid #ccc;overflow:auto;">
+                    <p class="alignleft" style="margin-top: 10px;margin-left: 10px;float: left;"> <b> Movie: </b> {{ post}}</p>
+
+
+                        <label for=new_rate style="margin-top: 10px;margin-left: 10px;float: left;"> Rate : </label>
+
+                        <select name=new_rate method="POST" style="margin-top: 10px;margin-left: 10px;float: left;">
+                        {% for new_rate in rating %}
+
+                        <option name=new_rate value= "{{new_rate}}" SELECTED> {{new_rate}}</option>
+                        {% endfor %}
+                        </select>
+                    <form method=post class=add-movie>
+                            <input type=hidden value="{{ post }}" name=movie_to_add />
+                            <input type="submit" name="add_button" value="add" class="alignright" style="margin-top: 7px;margin-right: 10px;float: right;">
+                    </form>
+
+                </div>
+                </form>
+               </div>
+              </div>
+            </article>
+        {% endfor %}
+    {% endif %}
+        {% endblock content2 %}
+</div>
+
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>
+~       
