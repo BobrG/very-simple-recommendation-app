@@ -13,3 +13,6 @@ MIPT Python HW
 Movies should be from dataset. <br> You can remove movies from your Watched list.
 4. Push *get* button to obtain Recommendations with Collaborative filtration system. You can add recommended movie to your Watched list and rate them.
 5. Enjoy! 
+
+
+TODO: add more smart recommendation system 
